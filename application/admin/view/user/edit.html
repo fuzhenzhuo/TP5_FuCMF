@@ -1,0 +1,40 @@
+<div class="box-body">
+        <form class="layui-form inline-form">
+
+            <div class="center" style="height: 400px;width: 500px; padding-top: 30px">
+                <div class="layui-block">
+                    <select name="hhr_jb" id="hhr_jb" >
+                        <option value="A">普通合伙人</option>
+                        <option value="B">铜牌合伙人</option>
+                        <option value="C">银牌合伙人</option>
+                        <option value="D">金牌合伙人</option>
+                        <option value="E">白金合伙人</option>
+                        <option value="F">铂金合伙人</option>
+                        <option value="G">钻石合伙人</option>
+                        <option value="H">超级合伙人</option>
+                    </select>
+                </div>
+            </div>
+            <input type="hidden" name="id" id="ids" value="{$Think.get.id}">
+        </form>
+</div>
+<script type="text/javascript">
+    $(document).on('click', '.layui-layer-btn0', function() {
+        $.ajax({
+            type: "post",
+            url: './edit',
+            data:{
+                id:$('#ids').val(),
+                hhr_jb: $('#hhr_jb').val()
+            },
+
+            success: function(res) {
+
+                if (res.code ==0){
+                    alert(res.msg);
+                    window.location.reload()
+                }
+            }
+        });
+    })
+</script>

@@ -1,0 +1,97 @@
+<php>$auth = app()->rbac->check('user/edit');</php>
+<table class="layui-table text-center" lay-size="sm">
+    <thead>
+    <tr>
+        <th style="width: 64px">id</th>
+        <th style="width: 150px">昵称</th>
+        <th style="width:120px">手机号</th>
+        <th>头像</th>
+        <th>真实姓名</th>
+        <th>身份证号</th>
+        <th>身份证正面</th>
+        <th>身份证反面</th>
+        <th>认证</th>
+        <th>注册时间</th>
+        <th>状态</th>
+        <eq name="auth" value="1">
+            <th>操作</th>
+        </eq>
+    </tr>
+    </thead>
+    <tbody>
+    <volist name="list" id="vo">
+        <tr>
+            <td>{$vo.id}</td>
+            <td>
+                {$vo.nickname}
+            </td>
+            <td>{$vo.mobile}</td>
+            <td>
+                <notempty name="vo.face"><img src="{$vo.face}" alt="" class="layui-upload-img"
+                                              onclick="previewImg(this)"
+                                              style="width: 32px;max-height: 32px;border-radius: 16px;"></notempty>
+            </td>
+            <td>{$vo.realname}</td>
+            <td>{$vo.card}</td>
+            <td>
+                <notempty name="vo.id_cover1"><img src="{$vo.id_cover1}" alt="" class="layui-upload-img"
+                                                   onclick="previewImg(this)"
+                                                   style="width: 80px;max-height: 80px;border-radius: 16px;"></notempty>
+            </td>
+            <td>
+                <notempty name="vo.id_cover2"><img src="{$vo.id_cover2}" alt="" class="layui-upload-img"
+                                                   onclick="previewImg(this)"
+                                                   style="width: 80px;max-height: 80px;border-radius: 16px;"></notempty>
+            </td>
+            <td>
+                <div class="text-center">
+
+                    <a  href="{:url('user/setCation',['user_id'=>$vo['user_id'],'cation'=>abs(1-$vo['cation'])])}"
+                       class="ajax-get" msg="0"><span class="{$vo.cation?'text-yellow':'text-muted'}"><i class="fa fa-circle"></i> {$vo.cation?'已认证':'未认证'}</span></a>
+
+                </div>
+            </td>
+            <td>{$vo.register_time|date="Y-m-d H:i:s"}</td>
+            <td>
+                <div class="text-center">
+                    <a href="{:url('user/setStatus',['id'=>$vo['id'],'status'=>abs(1-$vo['status'])])}" class="ajax-get"
+                       msg="0"><span class="{$vo.status?'text-yellow':'text-muted'}"><i class="fa fa-circle"></i> {$vo.status?'启用':'禁用'}</span></a>
+                </div>
+            </td>
+            <eq name="auth" value="1">
+                <td>
+                    <a class="layui-btn layui-btn-xs layui-btn-normal ajax-form"
+                       href="{:url('user/edit',['id'=>$vo['id']])}" title="编辑用户">编辑</a>
+                </td>
+            </eq>
+        </tr>
+    </volist>
+    </tbody>
+</table>
+
+<script>
+    function previewImg(obj) {
+        var img = new Image();
+        img.src = obj.src;
+        var height = img.height + 50; //获取图片高度
+        var width = img.width; //获取图片宽度
+        var imgHtml = "<img src='" + obj.src + "' />";
+        //弹出层
+        layer.open({
+            type: 1,
+            shade: 0.8,
+            offset: 'auto',
+            area: [width + 'px', height + 'px'],
+            shadeClose: true,//点击外围关闭弹窗
+            scrollbar: false,//不现实滚动条
+            title: "图片预览", //不显示标题
+            content: imgHtml, //捕获的元素，注意：最好该指定的元素要存放在body最外层，否则可能被其它的相对元素所影响
+            cancel: function () {
+                //layer.msg('捕获就是从页面已经存在的元素上，包裹layer的结构', { time: 5000, icon: 6 });
+            }
+        });
+    }
+</script>
+<div class="page">
+    {$page|raw}
+</div>

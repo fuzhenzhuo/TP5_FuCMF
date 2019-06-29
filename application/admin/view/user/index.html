@@ -1,0 +1,54 @@
+<extend name="public/base"/>
+<block name="content">
+    <div class="data-list" data-url="{:url('user/lists')}">
+        <form class="layui-form inline-form">
+            <div class="pull-left">
+                <div class="layui-inline">
+                    <select name="status" lay-filter="data-list">
+                        <option value="-1">用户状态</option>
+                        <option value="1">正常</option>
+                        <option value=0>禁用</option>
+                    </select>
+                </div>
+                <div class="layui-inline">
+                    <select name="real" lay-filter="data-list">
+                        <option value="-1">认证状态</option>
+                        <option value='3'>未认证</option>
+                        <option value='0'>待认证</option>
+                        <option value="1">已认证</option>
+                        <option value='2'>已拒绝</option>
+                    </select>
+                </div>
+                <div class="layui-inline">
+                    <select name="jb" lay-filter="data-list">
+                        <option value="-1">合伙人等级</option>
+                        <option value="A">普通合伙人</option>
+                        <option value="B">铜牌合伙人</option>
+                        <option value="C">银牌合伙人</option>
+                        <option value="D">金牌合伙人</option>
+                        <option value="E">白金合伙人</option>
+                        <option value="F">铂金合伙人</option>
+                        <option value="G">钻石合伙人</option>
+                        <option value="H">超级合伙人</option>
+                        <option value="I">核心合伙人B</option>
+                        <option value="J">核心合伙人A</option>
+                        <option value="K">体验合伙人</option>
+                    </select>
+                </div>
+                <div class="layui-inline">
+                    <input class="layui-input" name="keyword" placeholder="输入手机号或姓名搜索">
+                </div>
+                <div class="layui-inline">
+                    <input class="layui-input laydate-range" name="range_time" placeholder="时间区间">
+                </div>
+                <div class="layui-inline">
+                    <button class="layui-btn layui-btn-sm layui-btn-normal search"><i class="layui-icon">&#xe615;</i>
+                    </button>
+                </div>
+            </div>
+        </form>
+        <div class="data">
+            <p><i class="fa fa-spinner fa-spin"></i> 加载中...</p>
+        </div>
+    </div>
+</block>

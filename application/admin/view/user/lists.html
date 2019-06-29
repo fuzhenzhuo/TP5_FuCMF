@@ -1,0 +1,306 @@
+<php>$auth = app()->rbac->check('user/edit');</php>
+<table class="layui-table text-center" lay-size="sm">
+    <thead>
+    <tr>
+        <th style="width: 32px">ID</th>
+        <th>头像</th>
+        <th style="width: 64px">合伙人姓名</th>
+        <th style="width:120px">手机号</th>
+        <th>余额</th>
+        <th>推荐人姓名</th>
+        <th>推荐人手机号</th>
+        <th>级别</th>
+        <th>身份证正面</th>
+        <th>身份证反面</th>
+        <th>认证</th>
+        <th>状态</th>
+        <th>设置合伙人级别</th>
+        <th>注册时间</th>
+    </tr>
+    </thead>
+    <tbody>
+    <volist name="list" id="vo">
+        <tr>
+            <td>{$vo.id}</td>
+            <td>
+                <notempty name="vo.face"><img src="{$vo.face}" alt=""
+                                              style="width: 30px;max-height: 30px;border-radius: 5px;"
+                                              onclick="previewImg(this)"></notempty>
+            </td>
+            <td>{$vo.nickname}</td>
+            <td>{$vo.mobile}</td>
+            <td>{$vo.total_money ? $vo.total_money : '0.00' }</td>
+            <td>{$vo.parend_id.nickname}</td>
+            <td>{$vo.parend_id.mobile}</td>
+
+            <eq name="vo.hhr_jb" value="K">
+                <td style="color: red">体验合伙人</td>
+            </eq>
+            <eq name="vo.hhr_jb" value="A">
+                <td style="color: red">普通合伙人</td>
+            </eq>
+            <eq name="vo.hhr_jb" value="B">
+                <td style="color: red">铜牌合合伙人</td>
+            </eq>
+            <eq name="vo.hhr_jb" value="C">
+                <td style="color: red">银牌合伙人</td>
+            </eq>
+            <eq name="vo.hhr_jb" value="D">
+                <td style="color: red">金牌合伙人</td>
+            </eq>
+            <eq name="vo.hhr_jb" value="E">
+                <td style="color: red">白金合伙人</td>
+            </eq>
+            <eq name="vo.hhr_jb" value="F">
+                <td style="color: red">铂金合伙人</td>
+            </eq>
+            <eq name="vo.hhr_jb" value="G">
+                <td style="color: red">钻石合伙人</td>
+            </eq>
+            <eq name="vo.hhr_jb" value="H">
+                <td style="color: red;">超级合伙人</td>
+            </eq>
+            <eq name="vo.hhr_jb" value="I">
+                <td style="color: red;">核心合伙人B</td>
+            </eq>
+            <eq name="vo.hhr_jb" value="J">
+                <td style="color: red;">核心合伙人A</td>
+            </eq>
+
+            <td>
+                <notempty name="vo.cove1"><img src="{$vo.cove1}" alt=""
+                                               style="width: 30px;max-height: 30px;border-radius: 5px;"
+                                               class="layui-upload-img" onclick="previewImg(this)"></notempty>
+            </td>
+            <td>
+                <notempty name="vo.cove2"><img src="{$vo.cove2}" alt=""
+                                               style="width: 30px;max-height: 30px;border-radius: 5px;"
+                                               class="layui-upload-img" onclick="previewImg(this)"></notempty>
+            </td>
+            <!--            <td lay-data="{fixed: 'right', width:150, align:'center', toolbar: '#barDemo'}">-->
+            <!--                <div class="text-center">-->
+            <!--                    <a href="{:url('user/setReal',['user_id'=>$vo['id'],'real'=>abs(1-$vo['real'])])}"-->
+            <!--                       class="ajax-get" msg="0" confirm="true">-->
+            <!--                        <span class="{$vo.real ==1 ?'text-green':$vo.real ==2 ?'text-red':'text-muted'} ">-->
+            <!--                            <i class="fa fa-circle"></i>{$vo.real ==1 ? '已认证' : $vo.real == 2 ? '待认证' : '未认证' }-->
+            <!--                        </span>-->
+            <!--                    </a>-->
+            <!--                </div>-->
+
+            <!--            </td>-->
+
+
+            <td>
+                <span>
+                <eq name="vo.real" value="0">
+                    <div class="text-center">
+                        <a href="{:url('user/setReal',['user_id'=>$vo['id'],'status'=>1])}"
+                           class="layui-btn layui-btn-xs layui-btn-warm ajax-get" msg="1" title="审核通过" action="0"
+                           confirm="1">
+                            <i class="fa fa-send-o"></i>待认证
+                        </a>
+                    <a href="{:url('user/setReal',['user_id'=>$vo['id'],'status'=>2])}"
+                       class="layui-btn layui-btn-xs layui-btn-warning layui-btn-danger  ajax-audit"
+                       message="1" title="拒绝通过" confirm="1"><i class="fa fa-bullhorn"></i>驳回认证</a>
+
+                    </div>
+                </eq>
+                </span>
+                <span>
+                <eq name="vo.real" value="1">
+                    <div class="text-center">
+                        <a class="layui-btn layui-btn-xs ajax-get"><i class="fa fa-send-o"></i>已认证</a>
+                    </div>
+                </eq>
+                </span>
+                <span>
+                <eq name="vo.real" value="2">
+                <div>
+                    <a class="layui-btn layui-btn-danger layui-btn-xs "><i class="fa fa-bullhorn"></i>已拒绝</a>
+                </div>
+                </eq>
+                </span>
+                <span>
+                <eq name="vo.real" value="3">
+                <div>
+                    <a class="layui-btn layui-btn-danger layui-btn-xs "><i class="fa fa-bullhorn"></i>未认证</a>
+                </div>
+                </eq>
+                </span>
+            </td>
+
+
+            <td>
+                <div class="text-center">
+                    <a href="{:url('user/setStatus',['id'=>$vo['id'],'status'=>abs(1-$vo['status'])])}" class="ajax-get"
+                       msg="0" confirm="true"><span class="{$vo.status?'text-yellow':'text-muted'}"><i
+                            class="fa fa-circle"></i> {$vo.status?'已启用':'已禁用'}</span></a>
+                </div>
+            </td>
+            <td>
+
+                <!--                <form class="layui-form">-->
+                <!--                    <div class="layui-form-item">-->
+                <!--                        <input type="checkbox" value="{$vo.id}" id='ids' name="{$vo.hhr_jb}" lay-skin="switch"-->
+                <!--                               lay-filter="switchTest" lay-text="是|否" {$vo.hhr_jb== 'H' ? 'checked' : '' } >-->
+                <!--                    </div>-->
+                <!--                </form>-->
+
+                <div>
+                    <div class="layui-inline">
+                        <select name="status" data-level="{$vo.hhr_jb}" class="modifyLevel" lay-filter="data-list"
+                                data-id="{$vo.id}">
+                            <option value="2">设置合伙人等级</option>
+                            <option value="1">恢复合伙人等级</option>
+                            <option value="A">普通合伙人</option>
+                            <option value="B">铜牌合合伙人</option>
+                            <option value="C">银牌合伙人</option>
+                            <option value="D">金牌合伙人</option>
+                            <option value="E">白金合伙人</option>
+                            <option value="F">铂金合伙人</option>
+                            <option value="G">钻石合伙人</option>
+                            <option value="H">超级合伙人</option>
+                            <option value="I">核心合伙人B</option>
+                            <option value="J">核心合伙人A</option>
+                        </select>
+                    </div>
+                </div>
+
+            </td>
+            <td>{$vo.register_time|date="Y-m-d H:i:s"}</td>
+        </tr>
+    </volist>
+    </tbody>
+</table>
+<script>
+    function previewImg(obj) {
+        var img = new Image();
+        img.src = obj.src;
+        var height = img.height + 50; //获取图片高度
+        var width = img.width; //获取图片宽度
+        var imgHtml = `<img src="${obj.src}" style="width: ${width + 'px'};height: ${height + 'px'}" />`;
+        var showarea = [width + 'px', height + 'px'];
+        //弹出层
+        layer.open({
+            type: 1,
+            shade: 0.8,
+            offset: 'auto',
+            area: showarea,
+            // area:'auto',
+            shadeClose: true,//点击外围关闭弹窗
+            scrollbar: false,//不现实滚动条
+            title: "图片预览", //不显示标题
+            content: imgHtml, //捕获的元素，注意：最好该指定的元素要存放在body最外层，否则可能被其它的相对元素所影响
+            cancel: function () {
+                //layer.msg('捕获就是从页面已经存在的元素上，包裹layer的结构', { time: 5000, icon: 6 });
+            }
+        });
+    }
+
+    // 切换按钮改变状态
+    function switchContent(id, level) {
+
+
+        var timerInput = '<input class="layui-input" type="text" id="usetime" placeholder="请选择到期时间">';
+        var deadtime = '';
+
+        // 渲染弹出框有时间，延时挂载渲染之后的datepicker
+        setTimeout(function () {
+            layui.use('laydate', function () {
+                var laydate = layui.laydate;
+                laydate.render({
+                    elem: '#usetime',
+                    type: 'datetime'
+                });
+
+            })
+        }, 500);
+
+        layer.open({
+            content: timerInput,
+            btn: ['确定', '取消'],
+            area: ['500px', '500px'],
+            yes: function (index, layero) {
+                deadtime = $('#usetime').val();
+                if (deadtime == '') {
+                    alert('必须选择等级结束时间');
+                    location.reload();
+                    return;
+                }
+
+                changeState(id, level, deadtime);
+            },
+            btn2: function (index, layero) {
+
+                layer.close(index);
+                location.reload();
+                // return false //开启该代码可禁止点击该按钮关闭
+            },
+            cancel: function (index) {
+
+                layer.close(index);
+                location.reload();
+                //return false //开启该代码可禁止点击该按钮关闭
+            }
+        })
+
+
+    }
+
+    // 通知服务器修改状态
+    function changeState(id, level, deadtime) {
+        // console.log('id: %s, level: %s, deadtime: %s', id, level, deadtime);
+
+        $.ajax({
+            type: 'POST',
+            url: 'edit',
+            data: {
+                id: id,
+                level: level,
+                deadtime: deadtime
+            },
+            dataType: 'json',
+            success: function (data) {
+
+                layer.msg('修改成功');
+                location.reload();
+
+            },
+            error: function (data) {
+
+                layer.msg('修改失败');
+                location.reload();
+
+            }
+
+        })
+    }
+
+
+    layui.use('form', function () {
+        var form = layui.form;
+
+
+        form.on('switch(switchTest)', function (data) {
+            console.log(data);
+            switchContent(data.elem.checked, data.value);
+            return false;
+
+
+        });
+
+
+    });
+
+
+    $('body').on('change', '.modifyLevel', function (e) {
+        var id = $(this).data('id');
+        switchContent(id, e.target.value);
+    })
+
+
+</script>
+
+<div class="page">
+    {$page|raw}
+</div>
